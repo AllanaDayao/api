@@ -1,0 +1,90 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Part 2 - API</title>
+
+    <style type="text/css">
+        body {
+            font-size: 20px;
+            margin: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        #results {
+            border: 2px solid #090505;
+            padding: 15px;
+            max-width: 70%;
+        }
+
+        #category {
+            font-size: 20px;
+        }
+
+        #jokeBtn {
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1> Jokes API</h1>
+
+    <!-- form dropdown to select the category of the joke-->
+    <form> Select Category
+
+        <select id="category">
+            <option value="Programming">Programming</option>
+            <option value="Miscellaneous">Miscellaneous</option>
+            <option value="Pun">Pun</option>
+            <option value="Spooky">Spooky</option>
+        </select>
+
+        <input type="button" value="Generate Joke" id="jokeBtn" onclick="getJoke()">
+    </form>
+
+    <!-- Placeholder div to display data-->
+    <div id="results"> </div>
+
+    <!-- API questions -->
+    <p> I selected JokeAPI because I thought that its concept was interesting and it is compeletely
+        free and returns clean JSON data</p>
+    <p><strong>Website citation:</strong></p> <a href="https://sv443.net/jokeapi/v2/"
+        target=_blank>https://sv443.net/jokeapi/v2/</a>
+    <p>The API request took in a category and the query parameter was <code>?type=single</code></p>
+    <p>This API would be helpful to entertain people with over text. It is in general a funny API. </p>
+
+
+
+    <script>
+
+        function getJoke() {
+            selectedCategory = document.getElementById("category").value;
+            url = "https://v2.jokeapi.dev/joke/" + selectedCategory + "?type=single";
+
+            // using fetch
+            fetch(url)
+                .then(res => res.text())
+                .then(data => {
+                    resp = JSON.parse(data);
+                    if (resp.error) {
+                        document.getElementById("results").innerHTML = "Could not retrieve joke";
+                    }
+                    else {
+                        document.getElementById("results").innerHTML = "<br>Category: " + resp["category"]
+                            + "<br>The joke is: " + resp["joke"];
+
+                    }
+
+                }
+                )
+                .catch(error => console.log(error))
+
+        }
+    </script>
+</body>
+
+</html>
